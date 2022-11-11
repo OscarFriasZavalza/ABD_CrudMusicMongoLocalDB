@@ -1,0 +1,144 @@
+use escuela_musica
+
+db.alumnos.insert(
+    {
+        "curp": "FRZ0990303MZTRLA08",
+        "nombre": "Oscar",
+        "fecha_nac": "03-03-99",
+        "telefonos": [
+            "3111477764"
+        ],
+        "instrumento": {
+            "id": "i02",
+            "nombre": "bateria",
+            "fecha_inicio": "03-08-2008"
+        },
+        "materias_cursadas": [
+            "P11",
+            "E12"
+        ]
+    }
+);
+
+db.alumnos.insert(
+    {
+        "curp": "DIBP000308MNZRLA17",
+        "nombre": "Paola",
+        "fecha_nac": "08-03-00",
+        "telefonos": [
+            "3112814032"
+        ],
+        "instrumento": {
+            "id": "i04",
+            "nombre": "violin",
+            "fecha_inicio": "03-12-2010"
+        },
+        "materias_cursadas": [
+            "C10"
+        ]
+    }
+);
+
+db.alumnos.insert(
+    {
+        "curp": "ZABI75120105LHGFTE08",
+        "nombre": "Irma",
+        "fecha_nac": "01-12-75",
+        "telefonos": [
+            "3112108012"
+        ],
+        "instrumento": {
+            "id": "i01",
+            "nombre": "guitarra",
+            "fecha_inicio": "15-06-2001"
+        },
+        "materias_cursadas": [
+            "C10",
+            "P11"
+        ]
+    }
+);
+
+db.instrumentos.insertMany([
+{"id":"i01", "nombre":"guitarra", "tipo":"cuerdas", "desripcion":"guitarra acustica", "edad_recomentada":10},
+{"id":"i02", "nombre":"bateria", "tipo":"percusion", "desripcion":"tambores grandes y platillos", "edad_recomentada":13},
+{"id":"i03", "nombre":"piano", "tipo":"electrico", "desripcion":"teclas finas", "edad_recomentada":8},
+{"id":"i04", "nombre":"violin", "tipo":"cuerda frotada",  "desripcion":"pequeño y agudo", "edad_recomentada":20}
+])
+
+
+db.materias.insertMany([
+{"codigo":"C10", "nombre":"cuerdas", "cantidad_horas":45, "docente":"GDBR850121TADGCL24"},
+{"codigo":"P11", "nombre":"percusion", "cantidad_horas":55, "docente":"BRAN750110BRALNS10"},
+{"codigo":"E12", "nombre":"electricos", "cantidad_horas":50, "docente":"DFEM731008ZAFLVR08"},
+{"codigo":"A13", "nombre":"aerofonos", "cantidad_horas":40, "docente":"BRAN750110BRALNS10"}
+])
+
+db.docentes.insertMany([
+{"curp":"BRAN750110BRALNS10", "nombre":"Nora", "instrumentos_domina":["bateria","guitarra"], "reservaciones":["S1","S2"]},
+{"curp":"DFEM731008ZAFLVR08", "nombre":"Maria", "instrumentos_domina":["piano"], "reservaciones":["S3"]},
+{"curp":"GDBR850121TADGCL24", "nombre":"Pedro", "instrumentos_domina":["violin"], "reservaciones":["S4"]},
+{"curp":"noreservo", "nombre":"Pedro", "instrumentos_domina":["violin"], "reservaciones":["S4"]},
+{"curp":"sinreserva", "nombre":"Pedro", "instrumentos_domina":["violin"], "reservaciones":[]},
+
+])
+
+db.aulas.insertMany([
+{"codigo":"A1", "nombre":"Tierra", "num_max":15},
+{"codigo":"A2", "nombre":"Agua", "num_max":20},
+{"codigo":"A3", "nombre":"Fuego", "num_max":10},
+{"codigo":"A4", "nombre":"Aire", "num_max":15}
+])
+
+db.salas.insertMany([
+{"id":"S1", "nombre":"auditorio", "ubicacion":"Edifico AUD", "aforo":1000},
+{"id":"S2", "nombre":"sala azul", "ubicacion":"Edificio UVP", "aforo":250},
+{"id":"S3", "nombre":"sala amarillo", "ubicacion":"Edificio UD", "aforo":100},
+{"id":"S4", "nombre":"sala rojo", "ubicacion":"Edifico LSC", "aforo":50}
+])
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+a.	Q1. Muestre a todos los alumnos y las materias en las que están inscritos. 
+Incluya el código de la  consulta y la imagen del resultado.
+
+db.alumnos.aggregate([
+    {$lookup:
+    {
+    from:"materias",
+    localField:"materias_cursadas",
+    foreignField:"codigo",
+    as:"materia"
+    }}
+    ])
+
+
+
+//.	Q2. Muestre un docente en específico y las materias que imparte.
+ Incluya el código de la  consulta y la imagen del resultado.
+
+
+
+
+    db.docentes.aggregate([
+        {$lookup:
+        {
+        from:"materias",
+        localField:"curp",
+        foreignField:"docente",
+        as:"MateriasdeMaestro"
+        }},
+        {$match:{curp:"BRAN750110BRALNS10"}}
+        ])
+    
+
+ //c.	Q3. Muestre a todos los docentes que han realizado reservaciones de salas de conciertos. 
+ Incluya el código de la  consulta y la imagen del resultado.
+
+
+
+
+
+
+
+

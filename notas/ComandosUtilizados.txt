@@ -1,0 +1,16 @@
+//contenedor_redis
+docker run -d --name redis1 -p 6379:6379 redis
+docker exec -ti redis1 bash
+redis-cli
+//Comandos_Mongodb
+docker run -d --name mongo1 -p 27017:27017 -v C:\contenedor\mongo:/data/db mongo
+docker exec -it mongo1 bash
+Mongosh
+
+show dbs
+show collections
+
+db.aulas.find().pretty()
+//redis-commander
+npm install -g redis-commander
+redis-commander
